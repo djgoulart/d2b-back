@@ -11,6 +11,6 @@ class CreateUserOutputDto
         public int $roleId,
         public string $email,
         public string $name,
-        public DateTime $created_at,
+        public string $created_at,
     ){}
 }

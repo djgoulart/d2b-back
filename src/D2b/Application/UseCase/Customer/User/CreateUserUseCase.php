@@ -30,11 +30,11 @@ class CreateUserUseCase
         $persistedUser = $this->repository->insert($user);
 
         return new CreateUserOutputDto(
-            id: $persistedUser->id(),
+            id: $persistedUser->id,
             name: $persistedUser->name,
             email: $persistedUser->email,
             roleId: $persistedUser->roleId,
-            created_at: $persistedUser->createdAt,
+            created_at: $persistedUser->createdAt(),
         );
     }
 }

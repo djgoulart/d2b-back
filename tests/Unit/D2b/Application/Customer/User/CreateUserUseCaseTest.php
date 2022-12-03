@@ -31,6 +31,7 @@ class CreateUserUseCaseTest extends TestCase
         ]);
 
         $this->mockEntity->shouldReceive('id')->andReturn($id);
+        $this->mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
 
         $this->mockRepo = Mockery::mock(stdClass::class, UserRepositoryInterface::class);
         $this->mockRepo->shouldReceive('insert')->andReturn($this->mockEntity);
