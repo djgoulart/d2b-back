@@ -34,7 +34,7 @@ class CreateUserUseCaseTest extends TestCase
         $this->mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
 
         $this->mockRepo = Mockery::mock(stdClass::class, UserRepositoryInterface::class);
-        $this->mockRepo->shouldReceive('insert')->andReturn($this->mockEntity);
+        $this->mockRepo->shouldReceive('insert')->times(1)->andReturn($this->mockEntity);
 
         $useCase = new CreateUserUseCase($this->mockRepo);
         $result = $useCase->execute($this->mockInputDto);
@@ -44,17 +44,6 @@ class CreateUserUseCaseTest extends TestCase
         $this->assertEquals($name, $result->name);
         $this->assertEquals($email, $result->email);
         $this->assertEquals($roleId, $result->roleId);
-
-        /**
-         * Spies
-         */
-        $this->spyRepo = Mockery::spy(stdClass::class, UserRepositoryInterface::class);
-        $this->spyRepo->shouldReceive('insert')->andReturn($this->mockEntity);
-
-        $useCase = new CreateUserUseCase($this->spyRepo);
-        $result = $useCase->execute($this->mockInputDto);
-
-        $this->spyRepo->shouldHaveReceived('insert');
 
         Mockery::close();
     }
