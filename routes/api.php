@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\Api\{
-    UserController
-};
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\{
+    UserController,
+    AuthController
+};
+
 
 /*
 |--------------------------------------------------------------------------
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::apiResource('/users', UserController::class);
 

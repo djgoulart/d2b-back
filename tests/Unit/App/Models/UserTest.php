@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use PHPUnit\Framework\TestCase;
+use Laravel\Sanctum\HasApiTokens;
 
 class UserTest extends ModelTestCase
 {
@@ -19,6 +19,7 @@ class UserTest extends ModelTestCase
     protected function traits(): array
     {
         return [
+            HasApiTokens::class,
             HasFactory::class,
             Notifiable::class,
             SoftDeletes::class
