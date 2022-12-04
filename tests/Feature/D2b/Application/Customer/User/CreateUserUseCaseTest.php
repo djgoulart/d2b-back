@@ -11,7 +11,7 @@ use Tests\TestCase;
 
 class CreateUserUseCaseTest extends TestCase
 {
-    public function test_it_should_persist_a_user()
+    public function test_it_should_persist_an_user()
     {
         $model = new Model();
         $roleId = 1;
