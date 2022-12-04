@@ -37,9 +37,11 @@ class User {
     {
         DomainBaseValidation::notNull($this->name);
         DomainBaseValidation::strMaxLength($this->name);
+        DomainBaseValidation::strMinLength($this->name);
 
         DomainBaseValidation::notNull($this->email);
         DomainBaseValidation::strMaxLength($this->email);
+        DomainBaseValidation::strMinLength($this->email, 6);
 
         DomainBaseValidation::notNull($this->roleId);
     }
