@@ -65,4 +65,14 @@ class DomainBaseValidation
                     "The value should have at least {$length} characters"
             );
     }
+
+    public static function intVal($value)
+    {
+        if(!is_int($value)) {
+            throw new EntityValidationException(
+                $exceptionMessage ??
+                    "The value should be an integer"
+            );
+        }
+    }
 }
