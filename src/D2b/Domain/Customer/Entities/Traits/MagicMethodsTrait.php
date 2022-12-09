@@ -20,6 +20,11 @@ trait MagicMethodsTrait {
         return (string) $this->id;
     }
 
+    public function owner(): string
+    {
+        return (string) $this->owner;
+    }
+
     public function createdAt(): string
     {
         return $this->createdAt->format('Y-m-d H:i:s');

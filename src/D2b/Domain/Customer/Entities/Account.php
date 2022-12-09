@@ -13,13 +13,14 @@ class Account {
     use MagicMethodsTrait;
 
     public function __construct(
-        protected User $owner,
+        protected Uuid|string $owner = '',
         protected Uuid|string $id = '',
         protected int $balance = 0,
         protected DateTime|string $createdAt = '',
     )
     {
         $this->id = $this->id ? new Uuid($this->id) : Uuid::random();
+        $this->owner = $this->owner ? new Uuid($this->owner) : '';
         $this->createdAt = $this->createdAt ? new DateTime($this->createdAt()) : new DateTime();
 
         if ($this->balance) {
@@ -34,6 +35,7 @@ class Account {
     private function validate()
     {
         DomainBaseValidation::intVal($this->balance);
+        DomainBaseValidation::notNull($this->owner);
     }
 
     public function increaseBalance(int $amount)

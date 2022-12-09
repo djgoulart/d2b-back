@@ -49,4 +49,9 @@ class User extends Authenticatable
     protected $casts = [
         'id' => 'string',
     ];
+
+    public function account()
+    {
+        return $this->hasOne(Account::class);
+    }
 }

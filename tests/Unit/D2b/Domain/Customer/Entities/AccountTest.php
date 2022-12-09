@@ -20,13 +20,13 @@ class AccountTest extends TestCase
         );
 
         $account = new Account(
-            owner: $user,
+            owner: $user->id,
         );
 
         $this->assertNotEmpty($account->id());
         $this->assertEquals(0, $account->balance);
         $this->assertNotEmpty($account->owner);
-        $this->assertInstanceOf(User::class, $account->owner);
+        $this->assertEquals($user->id(), $account->owner);
     }
 
     public function test_it_can_increase_balance()
@@ -39,7 +39,7 @@ class AccountTest extends TestCase
         );
 
         $account = new Account(
-            owner: $user
+            owner: $user->id
         );
 
         $account->increaseBalance(10);
@@ -56,7 +56,7 @@ class AccountTest extends TestCase
         );
 
         $account = new Account(
-            owner: $user
+            owner: $user->id
         );
 
         $account->increaseBalance(15);
@@ -75,7 +75,7 @@ class AccountTest extends TestCase
             );
 
             $account = new Account(
-                owner: $user
+                owner: $user->id
             );
 
             $account->decreaseBalance(10);
