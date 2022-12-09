@@ -1,66 +1,124 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><a href="javascript:void(0)" target="_blank"><img src="https://raw.githubusercontent.com/djgoulart/d2b-back/main/public/logo.svg" width="400" alt="D2B Logo"></a></p>
 
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+
 </p>
 
-## About Laravel
+## About D2B Backend (work in progress)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project is <b>in development</b> and is the backend part of the [TydyDaily challenge](https://github.com/TidyDaily/developer-test). 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# Project Structure
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The project was built using (DDD) Domain Driven Design and (TDD) Test Driven Development. The Domain structure was built inside the src directory as illustrated below.
 
-## Learning Laravel
+<p>
+<img src="https://raw.githubusercontent.com/djgoulart/d2b-back/3c2744e831754f79ccfc5b7d9f20d773a8c659cd/public/folders.png" width="400" alt="D2B Logo">
+</p>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+# Running the application
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+The application was not published yet, but it's possible to run it in your local development environment using Docker and Docker Compose.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- clone the repository
+```bash
+git clone git@github.com:djgoulart/d2b-back.git
+ ```
+- run the containers:
 
-## Laravel Sponsors
+```bash
+docker compose up -d --build  
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+## Running the tests
 
-### Premium Partners
+- Attach a shell to the laravel app container.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+```bash
+docker exec -it d2b-back-laravel.test-1 bash  
+```
+- run the tests
+```bash
+php artisan test  
+```
 
-## Contributing
+## Implemented API Routes
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+  GET|HEAD      api/health-check 
+  POST          api/auth ......Api\AuthController@login
+ 
+  POST          api/users ......Api\UserController@store
+```
 
-## Code of Conduct
+## Create a customer
+Use any Rest client to create a new customer, passing the correct parameters, as demonstrated below.
+```js
+// POST /api/users
+{
+	"name": "Customer Name",
+	"email": "customer@email.com",
+	"password": "123456",
+	"password_confirmation": "123456"
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Authenticating
+Use any Rest client to authenticate, passing the correct parameters, as demonstrated below.
+```js
+// POST /api/auth/login
+{
+	"email": "email@an_existing_user.com",
+    "password": "password"
+}
+```
+## Create a Bank Account (to be implement)
+Use any Rest client to create a new bank account, passing the correct parameters, as demonstrated below.
+```js
+{
+	"owner": "an_existing_user_id"
+}
+```
+## View the balance (to be implement)
+```js
+{}
+```
+## Make a deposit (to be implement)
+```js
+{}
+```
+## Buy something (to be implement)
+```js
+{}
+```
+## List the account transactions (to be implement)
+```js
+{}
+```
 
-## Security Vulnerabilities
+<br />
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Challenge Details
+
+Build a simplified banking system, using Laravel and ReactJS.
+ - The system has 2 types of users.
+    - [x] Customer
+    - [] Admin
+
+## Customer Stories
+ - [x] A user can create a new account with name, email and password. 
+ - [x] A user starts with 0 balance.
+ - [x] A user can deposit more money to his account by uploading a picture of a check and entering the amount of the check. if the check is approved by an admin, the money is added to the bank account.
+ - [x] To buy something, the user enters the amount and description; a user can only buy something if she has enough money to cover the cost.
+ - [ ] a user can see a list of balance changes including time and description.
+
+ ## Admin Stories
+ - [ ] An admin account is already created with a hard coded username and password.
+ - [ ] An admin can see a list of pending check deposit pictures with amount and picture and click to approve or deny the deposit.
+ - [ ] An admin can’t be also a customer.
+
+
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
