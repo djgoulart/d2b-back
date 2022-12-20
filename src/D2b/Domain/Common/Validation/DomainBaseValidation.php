@@ -75,4 +75,14 @@ class DomainBaseValidation
             );
         }
     }
+
+    public static function greaterThenZero(int $value, $exceptionMessage = null)
+    {
+        if(!$value > 0) {
+            throw new EntityValidationException(
+                $exceptionMessage ??
+                    "The value should be greater then zero."
+            );
+        }
+    }
 }
