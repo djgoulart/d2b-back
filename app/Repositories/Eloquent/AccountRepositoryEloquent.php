@@ -42,13 +42,16 @@ class AccountRepositoryEloquent implements AccountRepositoryInterface
         return $this->toAccount($account);
     }
 
-    public function incrementBalance(Account $account, int $amount): Account
+    public function update(Account $account): Account
     {
         try {
             DB::beginTransaction();
 
             $accountModel = Model::findOrFail($account->id());
-            $accountModel->balance = $accountModel->balance + $amount;
+            $accountModel->update([
+                'balance' => $account->balance
+            ]);
+
             $accountModel->save();
 
             DB::commit();

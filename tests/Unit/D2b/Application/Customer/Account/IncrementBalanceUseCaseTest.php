@@ -41,10 +41,13 @@ class IncrementBalanceUseCaseTest extends TestCase
             $value
         ]);
 
+        $this->mockEntity->shouldReceive('id')->andReturn($id);
         $this->mockEntity->shouldReceive('createdAt')->andReturn(date('Y-m-d H:i:s'));
+        $this->mockEntity->shouldReceive('increaseBalance');
 
         $this->mockRepo = Mockery::mock(stdClass::class, AccountRepositoryInterface::class);
-        $this->mockRepo->shouldReceive('incrementBalance')->times(1)->andReturn($this->mockEntity);
+        $this->mockRepo->shouldReceive('findById')->times(1)->andReturn($this->mockEntity);
+        $this->mockRepo->shouldReceive('update')->times(1)->andReturn($this->mockEntity);
 
         $useCase = new IncrementBalanceUseCase($this->mockRepo);
         $result = $useCase->execute($this->mockInputDto);

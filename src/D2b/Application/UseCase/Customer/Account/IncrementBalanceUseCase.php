@@ -2,9 +2,6 @@
 
 namespace D2b\Application\UseCase\Customer\Account;
 
-use D2b\Domain\Customer\Entities\Account;
-use D2b\Application\Dto\Customer\Account\CreateAccountInputDto;
-use D2b\Application\Dto\Customer\Account\CreateAccountOutputDto;
 use D2b\Application\Dto\Customer\Account\IncrementBalanceInputDto;
 use D2b\Application\Dto\Customer\Account\IncrementBalanceOutputDto;
 use D2b\Domain\Customer\Repositories\AccountRepositoryInterface;
@@ -19,7 +16,11 @@ class IncrementBalanceUseCase {
 
     public function execute(IncrementBalanceInputDto $input): IncrementBalanceOutputDto
     {
-        $result = $this->repository->incrementBalance(account: $input->account, amount: $input->value);
+        $account = $this->repository->findById($input->account->id());
+
+        $account->increaseBalance($input->value);
+
+        $result = $this->repository->update(account:  $account);
 
         return new IncrementBalanceOutputDto(
             id: $result->id,

@@ -16,12 +16,11 @@ interface AccountRepositoryInterface {
      * @param Int $amount
      * @return Account
      */
-    public function incrementBalance(Account $account, int $amount): Account;
+    public function update(Account $account): Account;
 
     /**
-     * @param Account $account
-     * @param Int $amount
+     * @param Account $accountId
      * @return Account
      */
-    //public function decrementBalance(Account $account, int $amount): Account;
+    public function findById(string $accountId): Account;
 }
