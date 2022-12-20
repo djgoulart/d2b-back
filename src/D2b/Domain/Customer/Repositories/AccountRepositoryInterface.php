@@ -16,7 +16,7 @@ interface AccountRepositoryInterface {
      * @param Int $amount
      * @return Account
      */
-    //public function incrementBalance(Account $account, int $amount): Account;
+    public function incrementBalance(Account $account, int $amount): Account;
 
     /**
      * @param Account $account

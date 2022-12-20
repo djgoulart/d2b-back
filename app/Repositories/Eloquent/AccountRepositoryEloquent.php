@@ -42,6 +42,34 @@ class AccountRepositoryEloquent implements AccountRepositoryInterface
         return $this->toAccount($account);
     }
 
+    public function incrementBalance(Account $account, int $amount): Account
+    {
+        try {
+            DB::beginTransaction();
+
+            $accountModel = Model::findOrFail($account->id());
+            $accountModel->balance = $accountModel->balance + $amount;
+            $accountModel->save();
+
+            DB::commit();
+            return $this->toAccount($accountModel);
+        } catch (QueryException $th) {
+            DB::rollBack();
+
+            throw $th;
+        }
+    }
+
+    public function findById(string $accountId): Account
+    {
+        try {
+            $accountModel = Model::findOrFail($accountId);
+            return $this->toAccount($accountModel);
+        } catch (QueryException $th) {
+            throw $th;
+        }
+    }
+
     private function toAccount(object $object): Account
     {
         return new Account(
