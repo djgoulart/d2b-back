@@ -4,9 +4,8 @@ namespace D2b\Domain\Customer\Entities;
 
 use D2b\Domain\Common\Validation\DomainBaseValidation;
 use D2b\Domain\Customer\Entities\Traits\MagicMethodsTrait;
+use D2b\Domain\Customer\ValueObjects\TransactionStatus;
 use D2b\Domain\Customer\ValueObjects\Uuid;
-use D2b\Domain\Exceptions\EntityValidationException;
-use D2b\Domain\Customer\Entities\User;
 use D2b\Domain\Customer\ValueObjects\TransactionType;
 use DateTime;
 
@@ -19,6 +18,7 @@ class Transaction {
         protected string $description = '',
         protected TransactionType|string $type = '',
         protected int $value = 0,
+        protected TransactionStatus|string $status = 'need_approval',
         protected DateTime|string $createdAt = '',
     )
     {

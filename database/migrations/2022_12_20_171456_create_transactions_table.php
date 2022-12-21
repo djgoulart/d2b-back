@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->text('type');
             $table->integer('value');
-            $table->boolean('status')->default(false);
+            $table->text('status');
             $table->timestamps();
 
             $table

@@ -21,6 +21,7 @@ class Transaction extends Model
         'account',
         'description',
         'value',
+        'type',
         'status',
     ];
 
