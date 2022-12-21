@@ -8,8 +8,9 @@ use App\Http\Resources\UserResource;
 use D2b\Application\UseCase\Customer\User\CreateUserUseCase;
 use D2b\Application\Dto\Customer\User\{
     CreateUserInputDto,
-    CreateUserOutputDto
 };
+use D2b\Application\UseCase\Customer\User\FindUserByIdUseCase;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class UserController extends Controller
@@ -28,5 +29,15 @@ class UserController extends Controller
         return (new UserResource($response))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
+    }
+
+    public function show(Request $request, FindUserByIdUseCase $useCase)
+    {
+        $id = $request->user;
+        $response = $useCase->execute(input: $id);
+
+        return (new UserResource($response))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 }

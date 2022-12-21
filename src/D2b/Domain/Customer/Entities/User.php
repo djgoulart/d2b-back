@@ -18,6 +18,7 @@ class User {
         protected Uuid|string $id = '',
         protected string $email = '',
         protected string $name = '',
+        protected Account $account,
         protected DateTime|string $createdAt = '',
     )
     {

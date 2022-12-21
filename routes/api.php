@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\{
+    AccountController,
     UserController,
     AuthController
 };
@@ -21,6 +22,7 @@ use App\Http\Controllers\Api\{
 Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::apiResource('/users', UserController::class);
+Route::apiResource('/accounts', AccountController::class);
 
 Route::get('/health-check', function () {
     return response()->json(['message' => 'success']);
