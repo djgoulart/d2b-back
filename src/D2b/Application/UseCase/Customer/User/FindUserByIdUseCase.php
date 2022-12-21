@@ -6,6 +6,7 @@ use D2b\Application\Dto\Customer\Account\CreateAccountOutputDto;
 use D2b\Domain\Customer\Entities\User;
 use D2b\Domain\Customer\Repositories\UserRepositoryInterface;
 use D2b\Application\Dto\Customer\User\{
+    CreateUserAndAccountOutputDto,
     CreateUserInputDto,
     CreateUserOutputDto,
 };
@@ -25,15 +26,10 @@ class FindUserByIdUseCase
 
         return new CreateUserOutputDto(
             id: $user->id,
-            name: $user->name,
-            email: $user->email,
             roleId: $user->roleId,
-            account: new CreateAccountOutputDto(
-                id: $user->account->id,
-                owner: $user->account->owner,
-                balance: $user->account->balance,
-                created_at: $user->account->createdAt(),
-            ),
+            email: $user->email,
+            name: $user->name,
+            account: $user->account,
             created_at: $user->createdAt(),
         );
     }

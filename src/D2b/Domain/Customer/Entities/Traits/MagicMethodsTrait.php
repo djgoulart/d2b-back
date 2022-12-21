@@ -2,6 +2,7 @@
 
 namespace D2b\Domain\Customer\Entities\Traits;
 
+use D2b\Domain\Customer\Entities\Account;
 use Exception;
 
 trait MagicMethodsTrait {

@@ -12,7 +12,7 @@ class CreateUserOutputDto
         public int $roleId,
         public string $email,
         public string $name,
-        public CreateAccountOutputDto $account,
+        public string $account,
         public string $created_at,
     ){}
 }

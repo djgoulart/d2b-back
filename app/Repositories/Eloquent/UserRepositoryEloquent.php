@@ -59,7 +59,7 @@ class UserRepositoryEloquent implements UserRepositoryInterface
             email: $object->email,
             password: $object->password,
             roleId: $object->roleId,
-            account: $object->account ? $this->toAccount($object->account) : null,
+            account: $object->account ? $object->account->id : '',
             createdAt: $object->created_at,
         );
     }
