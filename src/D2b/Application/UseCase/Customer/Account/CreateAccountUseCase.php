@@ -17,6 +17,7 @@ class CreateAccountUseCase {
 
     public function execute(CreateAccountInputDto $input): CreateAccountOutputDto
     {
+
         $account = new Account(
             owner: $input->owner,
             balance: (int) 0,
@@ -30,5 +31,6 @@ class CreateAccountUseCase {
             balance: $persistedAccount->balance,
             created_at: $persistedAccount->createdAt(),
         );
+
     }
 }

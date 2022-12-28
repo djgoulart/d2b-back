@@ -50,8 +50,10 @@ class User extends Authenticatable
         'id' => 'string',
     ];
 
+    protected $with = ['account'];
+
     public function account()
     {
-        return $this->hasOne(Account::class, 'owner');
+        return $this->hasOne(Account::class);
     }
 }

@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('accounts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('owner');
+            $table->uuid('user_id');
             $table->integer('balance');
             $table->timestamps();
             $table->softDeletes();
 
             $table
-                ->foreign('owner')
+                ->foreign('user_id')
                 ->references('id')
                 ->on('users');
         });

@@ -15,18 +15,20 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('account')->nullable();
+            $table->uuid('account_id')->nullable();
             $table->text('description');
             $table->text('type');
-            $table->integer('value');
-            $table->text('status');
+            $table->integer('amount');
+            $table->boolean('approved');
+            $table->boolean('needs_review');
             $table->timestamps();
 
             $table
-                ->foreign('account')
+                ->foreign('account_id')
                 ->references('id')
                 ->on('accounts')
                 ->onDelete('SET NULL');
+
         });
     }
 

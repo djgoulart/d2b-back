@@ -20,7 +20,7 @@ class Account extends Model
     protected $fillable = [
         'id',
         'balance',
-        'owner',
+        'user_id',
     ];
 
 
@@ -35,7 +35,7 @@ class Account extends Model
     ];
 
 
-    public function owner()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }

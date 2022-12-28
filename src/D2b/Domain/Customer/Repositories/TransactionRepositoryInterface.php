@@ -5,6 +5,12 @@ namespace D2b\Domain\Customer\Repositories;
 use D2b\Domain\Customer\Entities\Transaction;
 
 interface TransactionRepositoryInterface {
+    public function list(
+        string $account = null,
+        string $type = null,
+        bool $approved = null,
+        bool $needs_review = null
+     ): Array;
     /**
      * @param Transaction $transaction
      * @return Transaction

@@ -23,4 +23,5 @@ interface AccountRepositoryInterface {
      * @return Account
      */
     public function findById(string $accountId): Account;
+
 }

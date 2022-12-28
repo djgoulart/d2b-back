@@ -19,18 +19,19 @@ class AccountRepositoryEloquent implements AccountRepositoryInterface
 
     public function insert(Account $account): Account
     {
+
         try {
             DB::beginTransaction();
 
             $data = [
                 'id' => $account->id(),
-                'owner' => $account->owner(),
+                'user_id' => $account->owner(),
                 'balance' => (int) $account->balance,
             ];
 
             $accountModel = Model::create($data);
-
             DB::commit();
+
             return $this->toAccount($accountModel);
         } catch (QueryException $th) {
             DB::rollBack();
@@ -77,7 +78,7 @@ class AccountRepositoryEloquent implements AccountRepositoryInterface
     {
         return new Account(
             id: $object->id,
-            owner: $object->owner,
+            owner: $object->user_id,
             balance: $object->balance,
             createdAt: $object->created_at,
         );

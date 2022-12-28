@@ -16,6 +16,7 @@ class Account {
         protected Uuid|string $owner = '',
         protected Uuid|string $id = '',
         protected int $balance = 0,
+        protected User|null $user = null,
         protected DateTime|string $createdAt = '',
     )
     {

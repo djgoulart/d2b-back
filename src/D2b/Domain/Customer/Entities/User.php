@@ -13,12 +13,12 @@ class User {
     use MagicMethodsTrait, PasswordTrait;
 
     public function __construct(
-        protected PasswordHash|string $password,
+        protected PasswordHash|string|null $password,
         protected int $roleId,
         protected Uuid|string $id = '',
         protected string $email = '',
         protected string $name = '',
-        protected Uuid|string $account = '',
+        protected Uuid|string|null $account = '',
         protected DateTime|string $createdAt = '',
     )
     {

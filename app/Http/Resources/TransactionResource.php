@@ -20,8 +20,9 @@ class TransactionResource extends JsonResource
             'account' => $this->account,
             'description' => $this->description,
             'type' => $this->type,
-            'value' => $this->value,
-            'status' => $this->status,
+            'amount' => $this->amount,
+            'appoved' => $this->approved,
+            'needs_review' => $this->needs_review,
             'created_at' => Carbon::make($this->created_at)->format('Y-m-d H:i:s'),
         ];
     }

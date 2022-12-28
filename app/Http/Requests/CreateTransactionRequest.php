@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CreateDepositRequest extends FormRequest
+class CreateTransactionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -33,7 +33,12 @@ class CreateDepositRequest extends FormRequest
                 'required',
                 'string',
             ],
-            'value' => [
+            'type' => [
+                'required',
+                'string',
+                Rule::in(['deposit', 'expense']),
+            ],
+            'amount' => [
                 'required',
                 'integer',
             ]

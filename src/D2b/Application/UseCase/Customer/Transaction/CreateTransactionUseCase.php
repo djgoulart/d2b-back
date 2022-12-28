@@ -2,15 +2,14 @@
 
 namespace D2b\Application\UseCase\Customer\Transaction;
 
-use D2b\Application\Dto\Customer\Account\CreateAccountOutputDto;
 use D2b\Domain\Customer\Entities\Transaction;
 use D2b\Domain\Customer\Repositories\TransactionRepositoryInterface;
 use D2b\Application\Dto\Customer\Transaction\{
-    CreateDepositInputDto,
-    CreateDepositOutputDto,
+    CreateTransactionInputDto,
+    CreateTransactionOutputDto,
 };
 
-class CreateDepositUseCase
+class CreateTransactionUseCase
 {
     protected $repository;
 
@@ -19,25 +18,27 @@ class CreateDepositUseCase
         $this->repository = $repository;
     }
 
-    public function execute(CreateDepositInputDto $input): CreateDepositOutputDto
+    public function execute(CreateTransactionInputDto $input): CreateTransactionOutputDto
     {
-        $deposit = new Transaction(
+        $transaction = new Transaction(
             account: $input->account,
             description: $input->description,
             type: $input->type,
-            value: (int) $input->value,
-            status: $input->status,
+            amount: (int) $input->amount,
+            approved: $input->approved,
+            needs_review: $input->needs_review,
         );
 
-        $persistedDeposit = $this->repository->insert($deposit);
+        $persistedDeposit = $this->repository->insert($transaction);
 
-        return new CreateDepositOutputDto(
+        return new CreateTransactionOutputDto(
             id: $persistedDeposit->id,
             account: $persistedDeposit->account,
             description: $persistedDeposit->description,
             type: $persistedDeposit->type,
-            value: $persistedDeposit->value,
-            status: $persistedDeposit->status,
+            amount: $persistedDeposit->amount,
+            approved: $persistedDeposit->approved,
+            needs_review: $persistedDeposit->needs_review,
             created_at: $persistedDeposit->createdAt(),
         );
     }

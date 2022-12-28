@@ -11,6 +11,7 @@ use D2b\Application\UseCase\Customer\User\CreateUserUseCase;
 use D2b\Application\Dto\Customer\User\{
     CreateUserAndAccountOutputDto,
     CreateUserInputDto,
+    CreateUserOutputDto,
 };
 use D2b\Application\UseCase\Customer\Account\CreateAccountUseCase;
 use D2b\Application\UseCase\Customer\User\FindUserByIdUseCase;
@@ -43,6 +44,7 @@ class UserController extends Controller
             user: $user,
             account: $account,
         );
+
 
         return (new UserAndAccountResource($response))
             ->response()

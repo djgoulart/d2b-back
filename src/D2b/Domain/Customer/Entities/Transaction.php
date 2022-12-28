@@ -17,8 +17,10 @@ class Transaction {
         protected Uuid|string $account = '',
         protected string $description = '',
         protected TransactionType|string $type = '',
-        protected int $value = 0,
-        protected TransactionStatus|string $status = 'need_approval',
+        protected int $amount = 0,
+        protected bool $approved = false,
+        protected bool $needs_review = true,
+        protected Account|null $user_account = null,
         protected DateTime|string $createdAt = '',
     )
     {
@@ -26,9 +28,9 @@ class Transaction {
         $this->account = $this->account ? new Uuid($this->account) : '';
         $this->createdAt = $this->createdAt ? new DateTime($this->createdAt()) : new DateTime();
 
-        if ($this->value) {
-            $this->value = $this->value
-                ? $this->value
+        if ($this->amount) {
+            $this->amount = $this->amount
+                ? $this->amount
                 : 0;
         }
 
@@ -37,8 +39,8 @@ class Transaction {
 
     private function validate()
     {
-        DomainBaseValidation::intVal($this->value);
-        DomainBaseValidation::greaterThenZero($this->value, "Can't create transactions with zero value.");
+        DomainBaseValidation::intVal($this->amount);
+        DomainBaseValidation::greaterThenZero($this->amount, "Can't create transactions with zero value.");
         DomainBaseValidation::notNull($this->account, "Can't create transactions without a account.");
     }
 }

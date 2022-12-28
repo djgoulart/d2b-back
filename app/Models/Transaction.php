@@ -18,11 +18,12 @@ class Transaction extends Model
 
     protected $fillable = [
         'id',
-        'account',
+        'account_id',
         'description',
-        'value',
+        'amount',
         'type',
-        'status',
+        'approved',
+        'needs_review'
     ];
 
     public function account() {
