@@ -24,6 +24,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 
 Route::apiResource('/users', UserController::class);
 Route::apiResource('/transactions', TransactionController::class,);
+Route::put('/transactions/{transaction}/send-for-approval', [TransactionController::class, 'sendForAnalysis']);
 
 Route::get('/health-check', function () {
     return response()->json(['message' => 'success']);

@@ -8,6 +8,7 @@ use App\Repositories\Eloquent\UserRepositoryEloquent;
 use D2b\Domain\Customer\Repositories\AccountRepositoryInterface;
 use D2b\Domain\Customer\Repositories\TransactionRepositoryInterface;
 use D2b\Domain\Customer\Repositories\UserRepositoryInterface;
+use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -42,6 +43,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        JsonResource::withoutWrapping();
     }
 }

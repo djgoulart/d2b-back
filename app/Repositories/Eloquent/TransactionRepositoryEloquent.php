@@ -19,17 +19,36 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
         $this->model = $model;
     }
 
-    public function list(?string $account = null, ?string $type = null, ?bool $approved = null, ?bool $needs_review = null): array
+    public function list(
+        ?string $account = null,
+        ?string $type = null,
+        ?bool $approved = null,
+        ?bool $needs_review = null): array
     {
-        $transactions = Model::with('account', 'account.owner')->where('account', $account)->get();
+        //dd($needs_review);
+        $where = [];
+        if($account) {
+            array_push($where, ['account_id', $account]);
+        }
+        if($type) {
+            array_push($where, ['type', $type]);
+        }
+        if($approved) {
+            array_push($where, ['approved', $approved]);
+        }
+        if($needs_review) {
+            array_push($where, ['needs_review', $needs_review]);
+        }
+
+        $transactions = Model::with(['account', 'account.user'])
+        ->where($where)
+        ->get();
 
         $entityList = $transactions->map(function ($item, $key) {
-            dd($item->account());
             return $this->toTransaction($item);
         });
 
-
-        return [];
+        return $entityList->toArray();
     }
 
     public function insert(Transaction $transaction): Transaction
@@ -66,7 +85,8 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
 
             $transactionModel = Model::findOrFail($transaction->id());
             $transactionModel->update([
-                'status' => $transaction->status
+                'approved' => $transaction->approved,
+                'needs_review' => $transaction->needs_review
             ]);
 
             $transactionModel->save();
@@ -83,8 +103,8 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
     public function findById(string $transactionId): Transaction
     {
         try {
-            $transactionModel = Model::findOrFail($transactionId);
-            return $this->toAccount($transactionModel);
+            $transactionModel = Model::with(['account', 'account.user'])->findOrFail($transactionId);
+            return $this->toTransaction($transactionModel);
         } catch (QueryException $th) {
             throw $th;
         }

@@ -5,10 +5,10 @@ namespace D2b\Application\UseCase\Customer\Transaction;
 use D2b\Domain\Customer\Repositories\TransactionRepositoryInterface;
 use D2b\Application\Dto\Customer\Transaction\{
     CreateTransactionOutputDto,
-    ListTransactionsInputDto,
+    FindTransactionByIdInputDto,
 };
 
-class ListsTransactionsUseCase
+class FindTransactionUseCase
 {
     protected $repository;
 
@@ -17,19 +17,13 @@ class ListsTransactionsUseCase
         $this->repository = $repository;
     }
 
-    public function execute(ListTransactionsInputDto $input)
+    public function execute(FindTransactionByIdInputDto $input)
     {
-        $persistedTransactions = $this->repository->list(
-            account: $input->account ? $input->account : null,
-            type: $input->type ? $input->type : null,
-            approved: $input->approved ? $input->approved : null,
-            needs_review: $input->needs_review ? $input->needs_review : null,
+        $transaction = $this->repository->findById(
+            transactionId: $input->transactionId
         );
 
-        $output = [];
-        foreach($persistedTransactions as $transaction) {
-            array_push($output, $this->toTransactionOutput($transaction));
-        }
+        $output = $this->toTransactionOutput($transaction);
 
         return $output;
     }

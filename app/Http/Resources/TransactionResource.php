@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class TransactionResource extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
@@ -14,14 +15,14 @@ class TransactionResource extends JsonResource
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
-    {   //dd($this);
+    {
         return [
             'id' => $this->id,
             'account' => AccountResource::make($this->account),
             'description' => $this->description,
             'type' => $this->type,
             'amount' => $this->amount,
-            'appoved' => $this->approved,
+            'approved' => $this->approved,
             'needs_review' => $this->needs_review,
             'created_at' => Carbon::make($this->created_at)->format('Y-m-d H:i:s'),
         ];

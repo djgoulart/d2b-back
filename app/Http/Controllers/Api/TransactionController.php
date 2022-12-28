@@ -6,27 +6,29 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateTransactionRequest;
 use App\Http\Resources\TransactionResource;
 use D2b\Application\Dto\Customer\Transaction\CreateTransactionInputDto;
+use D2b\Application\Dto\Customer\Transaction\FindTransactionByIdInputDto;
 use D2b\Application\Dto\Customer\Transaction\ListTransactionsInputDto;
+use D2b\Application\Dto\Customer\Transaction\TransactionAnalysisInputDto;
 use D2b\Application\UseCase\Customer\Transaction\CreateTransactionUseCase;
+use D2b\Application\UseCase\Customer\Transaction\FindTransactionUseCase;
 use D2b\Application\UseCase\Customer\Transaction\ListsTransactionsUseCase;
+use D2b\Application\UseCase\Customer\Transaction\TransactionAnalysisUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class TransactionController extends Controller
 {
     public function index(Request $request, ListsTransactionsUseCase $useCase) {
-        $params = $request->query();
-
         $response = $useCase->execute(
             new ListTransactionsInputDto(
-                account: $params['account'] ? $params['account'] : null,
-                approved: $params['approved'] ? $params['approved'] : null,
-                type: $params['type'] ? $params['type'] : null,
-                needs_review: $params['needs_review'] ? $params['needs_review'] : null,
+                account: $request->query('account'),
+                approved: $request->query('approved'),
+                type: $request->query('type'),
+                needs_review: $request->query('needs_review'),
             )
         );
 
-        return $response;
+        return TransactionResource::collection($response);
 
     }
 
@@ -43,11 +45,38 @@ class TransactionController extends Controller
             )
         );
 
-        /* $resource = new TransactionResource($response);
-        dd($resource->response()); */
-
         return (new TransactionResource($response))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
+    }
+
+    public function show(Request $request, FindTransactionUseCase $useCase) {
+        $transactionId = $request->transaction;
+
+        $transaction = $useCase->execute(
+            new FindTransactionByIdInputDto(
+                transactionId: $transactionId
+            )
+        );
+
+        return (new TransactionResource($transaction))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
+    }
+
+    public function sendForAnalysis(Request $request, TransactionAnalysisUseCase $useCase) {
+        $transactionId = $request->transaction;
+        $approved = $request->approved;
+
+        $transaction = $useCase->execute(
+            new TransactionAnalysisInputDto(
+                transactionId: $transactionId,
+                approved: $approved
+            )
+        );
+
+        return (new TransactionResource($transaction))
+            ->response()
+            ->setStatusCode(Response::HTTP_OK);
     }
 }

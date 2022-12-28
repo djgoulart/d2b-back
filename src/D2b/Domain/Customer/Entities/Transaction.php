@@ -37,6 +37,16 @@ class Transaction {
         $this->validate();
     }
 
+    public function dennyTransaction() {
+        $this->approved = false;
+        $this->needs_review = false;
+    }
+
+    public function approveTransaction() {
+        $this->approved = true;
+        $this->needs_review = false;
+    }
+
     private function validate()
     {
         DomainBaseValidation::intVal($this->amount);
