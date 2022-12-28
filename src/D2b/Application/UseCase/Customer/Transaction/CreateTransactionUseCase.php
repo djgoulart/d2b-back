@@ -29,17 +29,18 @@ class CreateTransactionUseCase
             needs_review: $input->needs_review,
         );
 
-        $persistedDeposit = $this->repository->insert($transaction);
+        $persistedTransaction = $this->repository->insert($transaction);
+        //dd($persistedTransaction);
 
         return new CreateTransactionOutputDto(
-            id: $persistedDeposit->id,
-            account: $persistedDeposit->account,
-            description: $persistedDeposit->description,
-            type: $persistedDeposit->type,
-            amount: $persistedDeposit->amount,
-            approved: $persistedDeposit->approved,
-            needs_review: $persistedDeposit->needs_review,
-            created_at: $persistedDeposit->createdAt(),
+            id: $persistedTransaction->id,
+            account: $persistedTransaction->user_account,
+            description: $persistedTransaction->description,
+            type: $persistedTransaction->type,
+            amount: $persistedTransaction->amount,
+            approved: $persistedTransaction->approved,
+            needs_review: $persistedTransaction->needs_review,
+            created_at: $persistedTransaction->createdAt(),
         );
     }
 }

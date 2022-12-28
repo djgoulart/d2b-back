@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Models\Transaction as Model;
 use D2b\Domain\Customer\Entities\Transaction;
 use D2b\Domain\Customer\Entities\User;
+use D2b\Domain\Customer\Entities\Account;
 use D2b\Domain\Customer\Repositories\TransactionRepositoryInterface;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
@@ -33,12 +34,13 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
 
     public function insert(Transaction $transaction): Transaction
     {
+        //dd($transaction->account);
         try {
             DB::beginTransaction();
 
             $data = [
                 'id' => $transaction->id(),
-                'account' => $transaction->account,
+                'account_id' => $transaction->account,
                 'description' => $transaction->description,
                 'type' => $transaction->type,
                 'amount' => (int) $transaction->amount,
@@ -88,33 +90,35 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
         }
     }
 
-    private function toTransaction(object $object): Transaction
+    private function toTransaction(Model $object): Transaction
     {
-        dd($object);
+        $user = new User(
+            id: $object->account->user->id,
+            name: $object->account->user->name,
+            email: $object->account->user->email,
+            roleId: $object->account->user->roleId,
+            createdAt: $object->account->user->created_at,
+            password: null
+        );
+
+        $account = new Account(
+            id: $object->account->id,
+            owner: $object->account->user_id,
+            balance: $object->account->balance,
+            createdAt: $object->account->created_at,
+            user: $user
+        );
 
         return new Transaction(
             id: $object->id,
-            account: $object->account,
+            account: $object->account_id,
             description: $object->description,
             type: $object->type,
             amount: $object->amount,
             approved: $object->approved,
             needs_review: $object->needs_review,
             createdAt: $object->created_at,
-            user_account: new Account(
-                id: $account->id,
-                owner: $account->owner,
-                balance: $account->balance,
-                createdAt: $account->created_at,
-                user: new User(
-                    id: $owner->id,
-                    name: $owner->name,
-                    email: $owner->email,
-                    roleId: $owner->role_id,
-                    createdAt: $owner->created_at,
-                    password: null
-                )
-            )
+            user_account: $account
         );
     }
 }

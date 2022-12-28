@@ -26,7 +26,7 @@ class TransactionController extends Controller
             )
         );
 
-        dd($response);
+        return $response;
 
     }
 
@@ -42,6 +42,9 @@ class TransactionController extends Controller
                 needs_review: $request->type === 'deposit' ? true : false
             )
         );
+
+        /* $resource = new TransactionResource($response);
+        dd($resource->response()); */
 
         return (new TransactionResource($response))
             ->response()

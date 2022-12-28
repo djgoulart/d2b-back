@@ -25,6 +25,7 @@ class Transaction extends Model
         'approved',
         'needs_review'
     ];
+    protected $with =["account"];
 
     public function account() {
         return $this->belongsTo(Account::class);

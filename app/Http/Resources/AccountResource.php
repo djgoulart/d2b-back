@@ -14,12 +14,12 @@ class AccountResource extends JsonResource
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
-    {
+    {   //dd($this);
         return [
-            'id' => $this->id,
-            'owner' => $this->owner,
+            'id' => $this->id(),
+            'owner' => UserResource::make($this->user),
             'balance' => $this->balance,
-            'created_at' => Carbon::make($this->created_at)->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::make($this->createdAt)->format('Y-m-d H:i:s'),
         ];
     }
 }

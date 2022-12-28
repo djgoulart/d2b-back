@@ -14,10 +14,10 @@ class TransactionResource extends JsonResource
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
-    {
+    {   //dd($this);
         return [
             'id' => $this->id,
-            'account' => $this->account,
+            'account' => AccountResource::make($this->account),
             'description' => $this->description,
             'type' => $this->type,
             'amount' => $this->amount,
