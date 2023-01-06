@@ -2,10 +2,12 @@
 
 namespace D2b\Application\UseCase\Customer\Transaction;
 
+use D2b\Application\Dto\Customer\Account\AccountOutputDto;
 use D2b\Domain\Customer\Repositories\TransactionRepositoryInterface;
 use D2b\Application\Dto\Customer\Transaction\{
     CreateTransactionOutputDto,
     ListTransactionsInputDto,
+    TransactionOutputDto,
 };
 
 class ListsTransactionsUseCase
@@ -35,9 +37,16 @@ class ListsTransactionsUseCase
     }
 
     public function toTransactionOutput($transaction) {
+        $account = new AccountOutputDto(
+            id: $transaction->user_account->id(),
+            owner: $transaction->user_account->owner(),
+            balance: $transaction->user_account->balance,
+            created_at: $transaction->user_account->createdAt()
+        );
+
         return new CreateTransactionOutputDto(
             id: $transaction->id,
-            account: $transaction->user_account,
+            account: $account,
             description: $transaction->description,
             type: $transaction->type,
             amount: $transaction->amount,
