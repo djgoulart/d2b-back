@@ -9,6 +9,7 @@ use D2b\Application\Dto\Customer\User\{
     CreateUserAndAccountOutputDto,
     CreateUserInputDto,
     CreateUserOutputDto,
+    FindUserOutputDto,
 };
 
 class FindUserByIdUseCase
@@ -20,12 +21,11 @@ class FindUserByIdUseCase
         $this->repository = $repository;
     }
 
-    public function execute(string $input): CreateUserOutputDto
+    public function execute(string $input): FindUserOutputDto
     {
         $user = $this->repository->findById($input);
-
-        return new CreateUserOutputDto(
-            id: $user->id,
+        return new FindUserOutputDto(
+            id: $user->id(),
             roleId: $user->roleId,
             email: $user->email,
             name: $user->name,

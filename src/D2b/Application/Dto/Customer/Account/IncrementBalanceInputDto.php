@@ -7,7 +7,7 @@ use D2b\Domain\Customer\Entities\Account;
 class IncrementBalanceInputDto
 {
     public function __construct(
-        public Account $account,
+        public string $account,
         public int $value,
     ){}
 }

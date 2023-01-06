@@ -2,10 +2,13 @@
 
 namespace D2b\Application\UseCase\Customer\Transaction;
 
+use D2b\Application\Dto\Customer\Account\AccountOutputDto;
+use D2b\Application\Dto\Customer\Account\CreateAccountOutputDto;
 use D2b\Domain\Customer\Repositories\TransactionRepositoryInterface;
 use D2b\Application\Dto\Customer\Transaction\{
     CreateTransactionOutputDto,
     TransactionAnalysisInputDto,
+    TransactionOutputDto,
 };
 
 class TransactionAnalysisUseCase
@@ -29,7 +32,6 @@ class TransactionAnalysisUseCase
             $transaction->approveTransaction();
         }
 
-
         $persistedTransaction = $this->repository->update($transaction);
 
         $output = $this->toTransactionOutput($persistedTransaction);
@@ -38,9 +40,8 @@ class TransactionAnalysisUseCase
     }
 
     public function toTransactionOutput($transaction) {
-        return new CreateTransactionOutputDto(
+        return new TransactionOutputDto(
             id: $transaction->id,
-            account: $transaction->user_account,
             description: $transaction->description,
             type: $transaction->type,
             amount: $transaction->amount,

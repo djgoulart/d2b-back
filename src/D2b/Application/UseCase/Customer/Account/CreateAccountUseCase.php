@@ -29,7 +29,7 @@ class CreateAccountUseCase {
             id: $persistedAccount->id,
             owner: $persistedAccount->owner,
             balance: $persistedAccount->balance,
-            created_at: $persistedAccount->createdAt(),
+            createdAt: $persistedAccount->createdAt(),
         );
 
     }

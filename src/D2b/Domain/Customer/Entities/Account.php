@@ -7,6 +7,8 @@ use D2b\Domain\Customer\Entities\Traits\MagicMethodsTrait;
 use D2b\Domain\Customer\ValueObjects\Uuid;
 use D2b\Domain\Exceptions\EntityValidationException;
 use D2b\Domain\Customer\Entities\User;
+use D2b\Domain\Exceptions\InsufficientBalanceException;
+use D2b\Domain\Exceptions\InsufficientFundsException;
 use DateTime;
 
 class Account {
@@ -47,9 +49,10 @@ class Account {
     public function decreaseBalance(int $amount)
     {
         if($this->balance < $amount) {
-            throw new EntityValidationException('Insuficient balance');
+            throw new InsufficientFundsException('Insufficient funds');
         }
 
         $this->balance = $this->balance - $amount;
+        return true;
     }
 }

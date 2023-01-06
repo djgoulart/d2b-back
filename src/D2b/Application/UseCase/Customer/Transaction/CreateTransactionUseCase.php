@@ -2,20 +2,29 @@
 
 namespace D2b\Application\UseCase\Customer\Transaction;
 
+use D2b\Application\Dto\Customer\Account\AccountOutputDto;
+use D2b\Application\Dto\Customer\Account\DecrementBalanceInputDto;
 use D2b\Domain\Customer\Entities\Transaction;
 use D2b\Domain\Customer\Repositories\TransactionRepositoryInterface;
 use D2b\Application\Dto\Customer\Transaction\{
     CreateTransactionInputDto,
     CreateTransactionOutputDto,
 };
+use D2b\Application\UseCase\Customer\Account\DecrementBalanceUseCase;
+use D2b\Domain\Customer\Repositories\AccountRepositoryInterface;
 
 class CreateTransactionUseCase
 {
     protected $repository;
+    protected $accountRepository;
 
-    public function __construct(TransactionRepositoryInterface $repository)
+    public function __construct(
+        TransactionRepositoryInterface $repository,
+        AccountRepositoryInterface $accountRepository
+    )
     {
         $this->repository = $repository;
+        $this->accountRepository = $accountRepository;
     }
 
     public function execute(CreateTransactionInputDto $input): CreateTransactionOutputDto
@@ -30,11 +39,17 @@ class CreateTransactionUseCase
         );
 
         $persistedTransaction = $this->repository->insert($transaction);
-        //dd($persistedTransaction);
+
+        $account = new AccountOutputDto(
+            id: $persistedTransaction->user_account->id(),
+            owner: $persistedTransaction->user_account->owner(),
+            balance: $persistedTransaction->user_account->balance,
+            created_at: $persistedTransaction->user_account->createdAt()
+        );
 
         return new CreateTransactionOutputDto(
             id: $persistedTransaction->id,
-            account: $persistedTransaction->user_account,
+            account: $account,
             description: $persistedTransaction->description,
             type: $persistedTransaction->type,
             amount: $persistedTransaction->amount,

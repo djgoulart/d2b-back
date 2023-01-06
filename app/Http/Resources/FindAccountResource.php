@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AccountResource extends JsonResource
+class FindAccountResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +17,9 @@ class AccountResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'owner' => $this->owner,
+            'owner' => $this->user,
             'balance' => (int) $this->balance,
-            'created_at' => Carbon::make($this->created_at)->format('Y-m-d H:i:s'),
+            'created_at' => Carbon::make($this->createdAt)->format('Y-m-d H:i:s'),
         ];
     }
 }

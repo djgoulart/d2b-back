@@ -16,17 +16,21 @@ class DecrementBalanceUseCase {
 
     public function execute(DecrementBalanceInputDto $input): DecrementBalanceOutputDto
     {
-        $account = $this->repository->findById($input->account->id());
+        $account = $this->repository->findById($input->account);
 
-        $account->decreaseBalance($input->value);
+        $decrement = $account->decreaseBalance($input->value);
 
-        $result = $this->repository->update(account:  $account);
+        if($decrement) {
+            $result = $this->repository->update(account:  $account);
+            return new DecrementBalanceOutputDto(
+                id: $result->id,
+                owner: $result->owner,
+                balance: $result->balance,
+                created_at: $result->createdAt(),
+            );
+        }
 
-        return new DecrementBalanceOutputDto(
-            id: $result->id,
-            owner: $result->owner,
-            balance: $result->balance,
-            created_at: $result->createdAt(),
-        );
+        return false;
+
     }
 }

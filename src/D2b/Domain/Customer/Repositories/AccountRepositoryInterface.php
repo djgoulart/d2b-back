@@ -24,4 +24,10 @@ interface AccountRepositoryInterface {
      */
     public function findById(string $accountId): Account;
 
+    /**
+     * @param string $accountId
+     * @return float
+     */
+    public function getBalance(string $accountId): float;
+
 }

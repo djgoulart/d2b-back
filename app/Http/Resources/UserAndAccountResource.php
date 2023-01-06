@@ -23,8 +23,8 @@ class UserAndAccountResource extends JsonResource
                 'roleId' => $this->user->roleId,
                 'account' => [
                     'id' => $this->account->id,
-                    'balance' => $this->account->balance,
-                    'created_at' => Carbon::make($this->account->created_at)->format('Y-m-d H:i:s'),
+                    'balance' => (int)$this->account->balance,
+                    'created_at' => Carbon::make($this->account->createdAt)->format('Y-m-d H:i:s'),
                 ],
                 'created_at' => Carbon::make($this->user->created_at)->format('Y-m-d H:i:s'),
             ]

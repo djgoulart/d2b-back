@@ -16,7 +16,7 @@ class IncrementBalanceUseCase {
 
     public function execute(IncrementBalanceInputDto $input): IncrementBalanceOutputDto
     {
-        $account = $this->repository->findById($input->account->id());
+        $account = $this->repository->findById($input->account);
 
         $account->increaseBalance($input->value);
 

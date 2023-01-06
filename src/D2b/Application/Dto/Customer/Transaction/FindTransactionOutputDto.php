@@ -2,13 +2,13 @@
 
 namespace D2b\Application\Dto\Customer\Transaction;
 
-use D2b\Application\Dto\Customer\Account\AccountOutputDto;
+use D2b\Application\Dto\Customer\Account\FindAccountOutputDto;
 
-class CreateTransactionOutputDto
+class FindTransactionOutputDto
 {
     public function __construct(
         public string $id,
-        public AccountOutputDto $account,
+        public FindAccountOutputDto $account,
         public string $description,
         public string $type,
         public int $amount,
