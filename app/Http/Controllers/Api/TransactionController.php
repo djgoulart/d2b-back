@@ -22,6 +22,7 @@ use D2b\Application\UseCase\Customer\Transaction\ListsTransactionsUseCase;
 use D2b\Application\UseCase\Customer\Transaction\TransactionAnalysisUseCase;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class TransactionController extends Controller
 {
@@ -160,5 +161,29 @@ class TransactionController extends Controller
         return (new TransactionResource($response))
             ->response()
             ->setStatusCode(Response::HTTP_OK);
+    }
+
+    public function uploadImage(Request $request) {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        dd($request->image);
+
+        $imageName = time().'.'.$request->image->extension();
+
+        $path = Storage::disk('s3')->put('images', $request->image, ['public']);
+        $url = Storage::temporaryUrl($path, now()->addMinutes(5));
+
+        /* Store $imageName name in DATABASE from HERE */
+
+        /* return back()
+            ->with('success','You have successfully upload image.')
+            ->with('image', $url); */
+
+        return response()->json([
+            'image', $url
+        ]);
+
     }
 }
