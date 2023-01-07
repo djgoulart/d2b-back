@@ -13,6 +13,7 @@ class TransactionOutputDto
         public int $amount,
         public bool $approved,
         public bool $needs_review,
+        public string $receipt_url,
         public string $created_at,
     ){}
 }

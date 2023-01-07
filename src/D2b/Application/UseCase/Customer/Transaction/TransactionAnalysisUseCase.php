@@ -47,6 +47,7 @@ class TransactionAnalysisUseCase
             amount: $transaction->amount,
             approved: $transaction->approved,
             needs_review: $transaction->needs_review,
+            receipt_url: $transaction->receipt_url,
             created_at: $transaction->createdAt(),
         );
     }

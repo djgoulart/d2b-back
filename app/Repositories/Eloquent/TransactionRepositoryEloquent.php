@@ -53,7 +53,7 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
 
     public function insert(Transaction $transaction): Transaction
     {
-        //dd($transaction->account);
+
         try {
             DB::beginTransaction();
 
@@ -65,9 +65,11 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
                 'amount' => (int) $transaction->amount,
                 'approved' => $transaction->approved,
                 'needs_review' => $transaction->needs_review,
+                'receipt_url' => $transaction->receipt_url,
             ];
 
             $transactionModel = Model::create($data);
+
 
             DB::commit();
             return $this->toTransaction($transactionModel);
@@ -112,6 +114,7 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
 
     private function toTransaction(Model $object): Transaction
     {
+
         $user = new User(
             id: $object->account->user->id,
             name: $object->account->user->name,
@@ -137,6 +140,7 @@ class TransactionRepositoryEloquent implements TransactionRepositoryInterface
             amount: $object->amount,
             approved: $object->approved,
             needs_review: $object->needs_review,
+            receipt_url: $object->receipt_url ?? '',
             createdAt: $object->created_at,
             user_account: $account
         );

@@ -20,6 +20,7 @@ class Transaction {
         protected int $amount = 0,
         protected bool $approved = false,
         protected bool $needs_review = true,
+        protected string $receipt_url = '',
         protected Account|null $user_account = null,
         protected DateTime|string $createdAt = '',
     )
@@ -33,6 +34,8 @@ class Transaction {
                 ? $this->amount
                 : 0;
         }
+
+        $this->receipt_url = $this->receipt_url ? $this->receipt_url : '';
 
         $this->validate();
     }

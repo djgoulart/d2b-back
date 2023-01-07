@@ -41,7 +41,13 @@ class CreateTransactionRequest extends FormRequest
             'amount' => [
                 'required',
                 'integer',
-            ]
+            ],
+            'receipt' => [
+                'image',
+                'mimes:jpeg,png,jpg,gif,svg',
+                'max:2048',
+                'required_unless:type,expense'
+            ],
         ];
     }
 }

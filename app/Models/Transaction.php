@@ -23,7 +23,8 @@ class Transaction extends Model
         'amount',
         'type',
         'approved',
-        'needs_review'
+        'needs_review',
+        'receipt_url',
     ];
     protected $with =["account"];
 

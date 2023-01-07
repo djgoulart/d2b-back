@@ -7,6 +7,8 @@ use D2b\Application\Dto\Customer\Account\DecrementBalanceInputDto;
 use D2b\Domain\Customer\Entities\Transaction;
 use D2b\Domain\Customer\Repositories\TransactionRepositoryInterface;
 use D2b\Application\Dto\Customer\Transaction\{
+    CreateDepositInputDto,
+    CreateExpenseInputDto,
     CreateTransactionInputDto,
     CreateTransactionOutputDto,
 };
@@ -27,7 +29,7 @@ class CreateTransactionUseCase
         $this->accountRepository = $accountRepository;
     }
 
-    public function execute(CreateTransactionInputDto $input): CreateTransactionOutputDto
+    public function execute(CreateDepositInputDto|CreateExpenseInputDto $input): CreateTransactionOutputDto
     {
         $transaction = new Transaction(
             account: $input->account,
@@ -36,9 +38,11 @@ class CreateTransactionUseCase
             amount: (int) $input->amount,
             approved: $input->approved,
             needs_review: $input->needs_review,
+            receipt_url: $input->receipt_url ?? ''
         );
 
         $persistedTransaction = $this->repository->insert($transaction);
+
 
         $account = new AccountOutputDto(
             id: $persistedTransaction->user_account->id(),
@@ -55,6 +59,7 @@ class CreateTransactionUseCase
             amount: $persistedTransaction->amount,
             approved: $persistedTransaction->approved,
             needs_review: $persistedTransaction->needs_review,
+            receipt_url: $persistedTransaction->receipt_url,
             created_at: $persistedTransaction->createdAt(),
         );
     }

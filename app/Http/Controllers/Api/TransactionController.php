@@ -9,6 +9,8 @@ use App\Http\Resources\TransactionResource;
 use D2b\Application\Dto\Customer\Account\DecrementBalanceInputDto;
 use D2b\Application\Dto\Customer\Account\FindAccountInputDto;
 use D2b\Application\Dto\Customer\Account\IncrementBalanceInputDto;
+use D2b\Application\Dto\Customer\Transaction\CreateDepositInputDto;
+use D2b\Application\Dto\Customer\Transaction\CreateExpenseInputDto;
 use D2b\Application\Dto\Customer\Transaction\CreateTransactionInputDto;
 use D2b\Application\Dto\Customer\Transaction\FindTransactionByIdInputDto;
 use D2b\Application\Dto\Customer\Transaction\ListTransactionsInputDto;
@@ -47,6 +49,7 @@ class TransactionController extends Controller
         FindAccountUseCase $findAccountUseCase
         )
     {
+
         try {
 
             $account = $findAccountUseCase->execute(
@@ -71,15 +74,37 @@ class TransactionController extends Controller
                     );
             }
 
-            $response = $useCase->execute(
-                input: new CreateTransactionInputDto(
+            $receiptPath;
+            if($request->hasFile('receipt') && $request->file('receipt')->isValid()) {
+                $receiptFileName = time().'.'.$request->receipt->extension();
+                $receiptPath = Storage::disk('s3')->put("receipts/$receiptFileName", $request->receipt, ['public']);
+            }
+
+            $inputData;
+
+            if($request->type === 'deposit') {
+                $inputData = new CreateDepositInputDto(
                     account: $request->account,
                     description: $request->description,
                     type: $request->type,
                     amount: $request->amount,
                     approved: $request->type === 'expense' ? true : false,
-                    needs_review: $request->type === 'deposit' ? true : false
-                )
+                    needs_review: $request->type === 'deposit' ? true : false,
+                    receipt_url: $receiptPath
+                );
+            } else {
+                $inputData = new CreateExpenseInputDto(
+                    account: $request->account,
+                    description: $request->description,
+                    type: $request->type,
+                    amount: $request->amount,
+                    approved: $request->type === 'expense' ? true : false,
+                    needs_review: $request->type === 'deposit' ? true : false,
+                );
+            }
+
+            $response = $useCase->execute(
+                input: $inputData
             );
 
             if($request->type === 'expense') {
@@ -90,6 +115,13 @@ class TransactionController extends Controller
                     )
                 );
             }
+
+            if(isset($receiptPath)) {
+                $receiptPublicUrl = Storage::temporaryUrl($receiptPath, now()->addMinutes(60));
+                $response->receipt_url = $receiptPublicUrl ?? '';
+            }
+
+
 
             return (new TransactionResource($response))
                 ->response()
@@ -163,27 +195,5 @@ class TransactionController extends Controller
             ->setStatusCode(Response::HTTP_OK);
     }
 
-    public function uploadImage(Request $request) {
-        $request->validate([
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
 
-        dd($request->image);
-
-        $imageName = time().'.'.$request->image->extension();
-
-        $path = Storage::disk('s3')->put('images', $request->image, ['public']);
-        $url = Storage::temporaryUrl($path, now()->addMinutes(5));
-
-        /* Store $imageName name in DATABASE from HERE */
-
-        /* return back()
-            ->with('success','You have successfully upload image.')
-            ->with('image', $url); */
-
-        return response()->json([
-            'image', $url
-        ]);
-
-    }
 }

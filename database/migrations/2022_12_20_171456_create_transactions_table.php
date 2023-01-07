@@ -21,6 +21,7 @@ return new class extends Migration
             $table->integer('amount');
             $table->boolean('approved');
             $table->boolean('needs_review');
+            $table->text('receipt_url')->nullable();
             $table->timestamps();
 
             $table
