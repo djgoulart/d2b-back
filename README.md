@@ -4,9 +4,9 @@
 
 </p>
 
-## About D2B Backend (work in progress)
+## About D2B Backend
 
-This project is <b>in development</b> and is the backend part of the [TydyDaily challenge](https://github.com/TidyDaily/developer-test). 
+This project is the backend part of the [TydyDaily challenge](https://github.com/TidyDaily/developer-test). 
 
 # Project Structure
 
@@ -18,7 +18,12 @@ The project was built using (DDD) Domain Driven Design and (TDD) Test Driven Dev
 
 # Running the application
 
-The application was not published yet, but it's possible to run it in your local development environment using Docker and Docker Compose.
+You can test de application by using the [web application](https://d2b-front-djgoulart.vercel.app/) developed as part of this challenge. [CLICK HERE](https://github.com/djgoulart/d2b-front) if you want to see the front-end project repository.
+<br />
+
+# Running in local development
+
+To run this project in your local development environment, use Docker and Docker Compose and follow the instructions bellow.
 
 - clone the repository
 ```bash
@@ -44,56 +49,86 @@ php artisan test
 
 ## Implemented API Routes
 
-```bash
-  GET|HEAD      api/health-check 
-  POST          api/auth ......Api\AuthController@login
- 
-  POST          api/users ......Api\UserController@store
-```
+```js
+// Authentication
+POST      api/auth/login
 
-## Create a customer
-Use any Rest client to create a new customer, passing the correct parameters, as demonstrated below.
-```js
-// POST /api/users
-{
-	"name": "Customer Name",
-	"email": "customer@email.com",
-	"password": "123456",
-	"password_confirmation": "123456"
-}
-```
+/**
+ * ===========================================
+ * User related endpoints
+ * ===========================================
+ */
 
-## Authenticating
-Use any Rest client to authenticate, passing the correct parameters, as demonstrated below.
-```js
-// POST /api/auth/login
-{
-	"email": "email@an_existing_user.com",
-    "password": "password"
-}
-```
-## Create a Bank Account (to be implement)
-Use any Rest client to create a new bank account, passing the correct parameters, as demonstrated below.
-```js
-{
-	"owner": "an_existing_user_id"
-}
-```
-## View the balance (to be implement)
-```js
-{}
-```
-## Make a deposit (to be implement)
-```js
-{}
-```
-## Buy something (to be implement)
-```js
-{}
-```
-## List the account transactions (to be implement)
-```js
-{}
+/*
+ * Create a new User with an customer account.
+ * @body {Object}
+ * @body_param String name
+ * @body_param String email
+ * @body_param String password
+ * @body_param String password_confirmation
+ */
+POST      api/users
+
+/* 
+ * Show a given user info
+ * @param String user
+ */
+GET      api/users/{user}
+
+/**
+ * ===========================================
+ * Account related endpoints
+ * ===========================================
+ */
+
+/* 
+ * Show a given account info
+ * @param String accountId
+ */
+GET|HEAD  api/accounts/{accountId}
+
+/**
+ * ===========================================
+ * Transactions related endpoints
+ * ===========================================
+ */
+
+/* 
+ * Show a list of transactions
+ * @query_params: [account, approved, type, needs_review]
+ * 
+ * @account String
+ * @approved Boolean
+ * @type String 'deposit'|'expense'
+ * @needs_review Boolean
+ */
+GET|HEAD  api/transactions
+
+/*
+ * Create a new transaction
+ *
+ * @body {Object}
+ * @body_param String account
+ * @body_param String description
+ * @body_param String 'deposit|expense' type 
+ * @body_param Number amount
+ * @body_param Blob receipt
+ */
+POST      api/transactions
+
+/*
+ * Show given transaction info
+ * @param String transaction
+*/ 
+GET|HEAD  api/transactions/{transaction}
+
+/* 
+ * Update transaction approval status
+ * @param String transaction
+ * @body {Object}
+ * @body_param Boolean approved
+ */
+PUT       api/transactions/{transaction}/send-for-approval
 ```
 
 <br />
@@ -103,19 +138,19 @@ Use any Rest client to create a new bank account, passing the correct parameters
 Build a simplified banking system, using Laravel and ReactJS.
  - The system has 2 types of users.
     - [x] Customer
-    - [] Admin
+    - [x] Admin
 
 ## Customer Stories
  - [x] A user can create a new account with name, email and password. 
  - [x] A user starts with 0 balance.
  - [x] A user can deposit more money to his account by uploading a picture of a check and entering the amount of the check. if the check is approved by an admin, the money is added to the bank account.
  - [x] To buy something, the user enters the amount and description; a user can only buy something if she has enough money to cover the cost.
- - [ ] a user can see a list of balance changes including time and description.
+ - [x] a user can see a list of balance changes including time and description.
 
  ## Admin Stories
- - [ ] An admin account is already created with a hard coded username and password.
- - [ ] An admin can see a list of pending check deposit pictures with amount and picture and click to approve or deny the deposit.
- - [ ] An admin can’t be also a customer.
+ - [x] An admin account is already created with a hard coded username and password.
+ - [x] An admin can see a list of pending check deposit pictures with amount and picture and click to approve or deny the deposit.
+ - [x] An admin can’t be also a customer.
 
 
 
