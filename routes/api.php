@@ -25,10 +25,14 @@ Route::post('/users', [UserController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{user}', [UserController::class, 'show']);
-    Route::apiResource('/transactions', TransactionController::class,);
+
+    Route::get('/accounts/{accountId}', [AccountController::class, 'show']);
+
+    Route::get('/transactions', [TransactionController::class, 'index']);
+    Route::post('/transactions', [TransactionController::class, 'store']);
+    Route::get('/transactions/{transaction}', [TransactionController::class, 'show']);
     Route::put('/transactions/{transaction}/send-for-approval', [TransactionController::class, 'sendForAnalysis']);
     Route::post('/transactions/{transaction}/send-image', [TransactionController::class, 'uploadImage']);
-    Route::get('/accounts/{accountId}', [AccountController::class, 'show']);
 });
 
 Route::get('/health-check', function () {
