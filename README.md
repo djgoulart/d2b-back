@@ -47,6 +47,11 @@ docker exec -it d2b-back-laravel.test-1 bash
 php artisan test  
 ```
 
+## API URL
+```bash
+https://d2b.triup.dev.br/api  
+```
+
 ## Implemented API Routes
 
 ```js
