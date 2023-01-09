@@ -19,14 +19,14 @@ class TransactionTest extends TestCase
         $transaction = new Transaction(
             account: $accountId,
             description: 'deposit description',
-            value: 1000,
+            amount: 1000,
             type: 'deposit'
         );
 
         $this->assertNotEmpty($transaction->id());
         $this->assertNotEmpty($transaction->description);
         $this->assertEquals('deposit description', $transaction->description);
-        $this->assertEquals(1000, $transaction->value);
+        $this->assertEquals(1000, $transaction->amount);
         $this->assertEquals('deposit', $transaction->type);
         $this->assertNotEmpty($transaction->account);
         $this->assertEquals($accountId, $transaction->account);
@@ -39,12 +39,12 @@ class TransactionTest extends TestCase
         $transaction = new Transaction(
             account: $accountId,
             description: 'withdrawal description',
-            value: 1000,
+            amount: 1000,
             type: 'withdrawal'
         );
 
         $this->assertNotEmpty($transaction->id);
-        $this->assertEquals(1000, $transaction->value);
+        $this->assertEquals(1000, $transaction->amount);
         $this->assertEquals('withdrawal', $transaction->type);
         $this->assertNotEmpty($transaction->account);
         $this->assertEquals($accountId, $transaction->account);
@@ -59,7 +59,7 @@ class TransactionTest extends TestCase
             new Transaction(
                 account: $accountId,
                 description: 'test with zero value',
-                value: 0,
+                amount: 0,
                 type: 'withdrawal'
             );
 
@@ -78,7 +78,7 @@ class TransactionTest extends TestCase
             new Transaction(
                 account: $accountId,
                 description: 'test without account',
-                value: 100,
+                amount: 100,
                 type: 'withdrawal'
             );
 

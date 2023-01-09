@@ -5,6 +5,7 @@ namespace Tests\Unit\D2b\Domain\Customer\Entities;
 use D2b\Domain\Customer\Entities\Account;
 use D2b\Domain\Customer\Entities\User;
 use D2b\Domain\Exceptions\EntityValidationException;
+use D2b\Domain\Exceptions\InsufficientFundsException;
 use PHPUnit\Framework\TestCase;
 
 class AccountTest extends TestCase
@@ -82,8 +83,8 @@ class AccountTest extends TestCase
 
             $this->assertTrue(false);
         } catch (\Throwable $th) {
-            $this->assertInstanceOf(EntityValidationException::class, $th);
-            $this->assertEquals('Insuficient balance', $th->getMessage());
+            $this->assertInstanceOf(InsufficientFundsException::class, $th);
+            $this->assertEquals('Insufficient funds', $th->getMessage());
         }
     }
 }

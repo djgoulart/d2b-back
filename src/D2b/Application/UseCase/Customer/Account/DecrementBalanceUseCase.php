@@ -18,19 +18,16 @@ class DecrementBalanceUseCase {
     {
         $account = $this->repository->findById($input->account);
 
-        $decrement = $account->decreaseBalance($input->value);
+        $account->decreaseBalance($input->value);
 
-        if($decrement) {
-            $result = $this->repository->update(account:  $account);
-            return new DecrementBalanceOutputDto(
-                id: $result->id,
-                owner: $result->owner,
-                balance: $result->balance,
-                created_at: $result->createdAt(),
-            );
-        }
+        $result = $this->repository->update(account:  $account);
+        return new DecrementBalanceOutputDto(
+            id: $result->id,
+            owner: $result->owner,
+            balance: $result->balance,
+            created_at: $result->createdAt(),
+        );
 
-        return false;
 
     }
 }

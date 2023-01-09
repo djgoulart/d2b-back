@@ -42,7 +42,7 @@ class CreateAccountUseCaseTest extends TestCase
         $this->assertInstanceOf(CreateAccountOutputDto::class, $response);
         $this->assertDatabaseHas('accounts', [
             'id' => $response->id,
-            'owner' => $response->owner,
+            'user_id' => $response->owner,
             'balance' => $response->balance,
         ]);
         $this->assertEquals($response->balance, 0);

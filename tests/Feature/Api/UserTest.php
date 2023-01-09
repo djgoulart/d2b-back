@@ -59,10 +59,10 @@ class UserTest extends TestCase
         ];
 
         $response = $this->postJson($this->endpoint, $data);
-
+        //dd($response);
         $response->assertStatus(Response::HTTP_CREATED);
         $response->assertJsonStructure([
-            'data' => [
+            'user' => [
                 'id',
                 'name',
                 'email',
