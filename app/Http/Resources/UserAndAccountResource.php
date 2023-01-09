@@ -27,7 +27,7 @@ class UserAndAccountResource extends JsonResource
                     'created_at' => Carbon::make($this->account->createdAt)->format('Y-m-d H:i:s'),
                 ],
                 'created_at' => Carbon::make($this->user->created_at)->format('Y-m-d H:i:s'),
-            ]
+            ],
         ];
     }
 }
